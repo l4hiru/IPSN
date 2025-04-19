@@ -12,6 +12,9 @@ library(reshape2)     # For reshaping data (melt, cast)
 library(stargazer)    # For regression tables (if needed)
 library(plm)          # For panel data models (if needed)
 
+library(rnaturalearth)
+library(sf)
+
 #I) Data
 
 data <- read_delim("Cesium 137 et Iode 131 data (IPSN).csv", delim = ";")
@@ -19,5 +22,5 @@ write_parquet(data, "cesium_iodine_data.parquet")
 
 #II) Map Vizualisation
 
-
+FR <- readRDS("gadm36_FRA_2_sf.rds")
 
