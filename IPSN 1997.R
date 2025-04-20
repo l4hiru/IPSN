@@ -70,4 +70,5 @@ ggplot(map) +
     panel.grid = element_blank()
   )
 
-unique(map$`Iode 131`)
+saveRDS(map, "mapIPSN1997.sf.rds")
+
