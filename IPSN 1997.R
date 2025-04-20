@@ -46,4 +46,33 @@ ggplot(map) +
 ggplot(map) +
   geom_sf(aes(fill = as.factor(`Iode 131`)), color = "white") +
   scale_fill_brewer(palette = "Spectral", direction = -1, name = "Exposure Iodine 131") +
-  theme_minimal()
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
+
+map <- map %>%
+  mutate(`Iode 131` = str_trim(`Iode 131`))
+
+ggplot(map) +
+  geom_sf(aes(fill = `Iode 131`), color = "white") +
+  scale_fill_manual(
+    values = c(
+      "Zone 3" = "#d73027",  # rouge
+      "Zone 2" = "#fc8d59",  # orange
+      "Zone 1" = "#4575b4"   # bleu
+    ),
+    name = "Exposure Iodine 131"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
+
+unique(map$`Iode 131`)
