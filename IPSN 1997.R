@@ -41,18 +41,13 @@ map <- left_join(FR, data, by = c("CC_2" = "code_dep"))
 ggplot(map) +
   geom_sf(aes(fill = as.factor(`Cesium 137`)), color = "white") +
   scale_fill_brewer(palette = "Spectral", direction = -1, name = "Exposure Cesium 137") +
-  theme_minimal()
-
-ggplot(map) +
-  geom_sf(aes(fill = as.factor(`Iode 131`)), color = "white") +
-  scale_fill_brewer(palette = "Spectral", direction = -1, name = "Exposure Iodine 131") +
-  theme_minimal() +
-  theme(
-    axis.title = element_blank(),
-    axis.text = element_blank(),
-    axis.ticks = element_blank(),
-    panel.grid = element_blank()
-  )
+    theme_minimal() +
+      theme(
+        axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid = element_blank()
+      )
 
 map <- map %>%
   mutate(`Iode 131` = str_trim(`Iode 131`))
