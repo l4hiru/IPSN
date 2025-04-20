@@ -11,16 +11,39 @@ library(summarytools) # For frequency tables (freq)
 library(reshape2)     # For reshaping data (melt, cast)
 library(stargazer)    # For regression tables (if needed)
 library(plm)          # For panel data models (if needed)
-
-library(rnaturalearth)
 library(sf)
+library(ggplot2)
 
 #I) Data
 
 data <- read_delim("Cesium 137 et Iode 131 data (IPSN).csv", delim = ";")
-write_parquet(data, "cesium_iodine_data.parquet")
 
 #II) Map Vizualisation
 
-FR <- readRDS("gadm36_FRA_2_sf.rds")
+FR <- read_sf("gadm41_FRA_2.json")
 
+ggplot(FR) +
+  geom_sf(fill = "#69b3a2", color = "white") +
+  theme_void()
+
+data$code_dep <- gsub("·", "", data$code_dep)  # Remove separators
+data$code_dep <- ifelse(nchar(data$code_dep) == 1, 
+                               paste0("0", data$code_dep), 
+                               data$code_dep)
+
+data$code_dep[data$code_dep %in% c("·2A·", ".2A.", " 2A ", "2 A")] <- "2A"
+data$code_dep[data$code_dep %in% c("·2B·", ".2B.", " 2B ", "2 B")] <- "2B"
+
+write_parquet(data, "cesium_iodine_data.parquet")
+
+map <- left_join(FR, data, by = c("CC_2" = "code_dep"))
+
+ggplot(map) +
+  geom_sf(aes(fill = as.factor(`Cesium 137`)), color = "white") +
+  scale_fill_brewer(palette = "Spectral", direction = -1, name = "Exposure Cesium 137") +
+  theme_minimal()
+
+ggplot(map) +
+  geom_sf(aes(fill = as.factor(`Iode 131`)), color = "white") +
+  scale_fill_brewer(palette = "Spectral", direction = -1, name = "Exposure Iodine 131") +
+  theme_minimal()
