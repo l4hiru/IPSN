@@ -62,7 +62,7 @@ ggplot(map) +
       "Zone 2" = "#fdd835",  # orange
       "Zone 1" = "#4575b4"   # bleu
     ),
-    name = "Exposure Iodine 131"
+    name = "Exposure in Iodine 131"
   ) +
   theme_minimal() +
   theme(
