@@ -74,3 +74,5 @@ ggplot(map) +
 
 saveRDS(map, "final_map.sf.rds")
 
+#ggsave("Cesium137.png", plot = last_plot(), width = 7, height = 5, dpi = 300)
+#ggsave("Iodine137.png", plot = last_plot(), width = 7, height = 5, dpi = 300)
