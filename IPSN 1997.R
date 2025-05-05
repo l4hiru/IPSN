@@ -39,25 +39,27 @@ write_parquet(data, "cesium_iodine_data.parquet")
 map <- left_join(FR, data, by = c("CC_2" = "code_dep"))
 
 ggplot(map) +
-  geom_sf(aes(fill = as.factor(`Cesium 137`)), color = "white") +
-  scale_fill_brewer(palette = "Spectral", direction = -1, name = "Exposure Cesium 137") +
-    theme_minimal() +
-      theme(
-        axis.title = element_blank(),
-        axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        panel.grid = element_blank()
-      )
+  geom_sf(aes(fill = as.factor(`Cesium 137`)), color = "white") +  # Fond coloré propre
+  geom_sf_text(aes(label = CC_2), size = 3, color = "black") +     # Labels centrés
+  scale_fill_brewer(palette = "Spectral", direction = -1, name = "Exposure in Cesium 137") +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
 
 map <- map %>%
   mutate(`Iode 131` = str_trim(`Iode 131`))
 
 ggplot(map) +
   geom_sf(aes(fill = `Iode 131`), color = "white") +
+  geom_sf_text(aes(label = CC_2), size = 3, color = "black") +  # ← Ajout des codes départements
   scale_fill_manual(
     values = c(
       "Zone 3" = "#d73027",  # rouge
-      "Zone 2" = "#fc8d59",  # orange
+      "Zone 2" = "#fdd835",  # orange
       "Zone 1" = "#4575b4"   # bleu
     ),
     name = "Exposure Iodine 131"
@@ -70,5 +72,5 @@ ggplot(map) +
     panel.grid = element_blank()
   )
 
-saveRDS(map, "mapIPSN1997.sf.rds")
+saveRDS(map, "final_map.sf.rds")
 
